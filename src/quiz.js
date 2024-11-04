@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 //import question from "./question.json";
 import confetti from "canvas-confetti";
 import "./App.css";
-import { getDatabase,ref,push,onValue,remove,set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+import database from "./db/index.js";
+import { collection, addDoc } from 'firebase/firestore';
 
 const Quiz = ({user,email,users}) => {
   const [current, setCurrent] = useState(0);
@@ -155,7 +156,7 @@ let new_user={
   score:score
 }
 
-  let correct = (btn, value) => {
+  let correct = async(btn, value) => {
     //console.log(btn);
     setid((pre)=>pre+1);
     if (question.length - 1 > current) {
@@ -169,8 +170,14 @@ let new_user={
       console.log(user);
       console.log(email);
       console.log(score);
-      push(users,new_user)
-      //console.log(current);
+      let eligible=score > 12 ? true : false
+      await addDoc(collection(database, 'users'), {
+        Name:user,
+        Email:email,
+        Date:new Date(),
+        score:score,
+        eligible:eligible
+    });
     }
     if (value == question[current].answer) {
       setScore((pre) => pre + 1);
@@ -196,7 +203,11 @@ let new_user={
       console.log(user);
       console.log(email);
       console.log(score);
-      push(users,new_user)
+      database.ref("users").set({
+        name:user,
+        email:email,
+        score:score
+      })
     }
 
     return () => clearInterval(time);
