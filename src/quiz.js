@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import question from "./question.json";
+//import question from "./question.json";
 import confetti from "canvas-confetti";
 import "./App.css";
 
@@ -16,6 +16,130 @@ const Quiz = () => {
 //   console.log(question[current].question);
 //   console.log(current);
 //   console.log(question[current].option);
+
+const question=[
+  {
+    "id": "1",
+    "question": "Which of the following is a popular front-end development framework maintained by Google?",
+    "option":["React","Angular","Vue.Js","Django"],
+    "answer": "Angular"
+  },
+  {
+    "id": "2",
+    "question": "javascript and java are same language true or false?",
+    "option": ["true","false"],
+    "answer": "false"
+  },
+  {
+    "id": "3",
+    "question": "Which of the following is used to store and query data in a tabular format in web development?",
+    "option":["Database","API","JSON","XML"],
+    "answer": "database"
+  },
+  {
+    "id": "4",
+    "question": "What is the purpose of the “form” element in HTML?",
+    "option":["It defines a hyperlink","It creates a container for metadata","It allows users to input data and submit it to the server","It defines a section in a document"],
+    "answer": "It allows users to input data and submit it to the server"
+  },
+  {
+    "id": "5",
+    "question": "Which JavaScript function is used to change the content of an HTML element?",
+    "option":["modify()","change()","update()","innerHTML()"],
+    "answer": "InnerHTML"
+  },
+  {
+    "id": "6",
+    "question": "Which HTTP method is typically used to retrieve data from a web server?",
+    "option":["GET","POST","PUT","DELETE"],
+    "answer": "GET"
+  },
+  {
+    "id": "7",
+    "question": "Which HTML tag is used to define a table in web development?",
+    "option":["{table}","{div}","{form}","{img}"],
+    "answer": "{table}"
+  },
+  {
+    "id": "8",
+    "question": "Which of the following is an example of a front-end web development framework/library?",
+    "option":["Express.js","Django","Flask","React.js"],
+    "answer": "React.js"
+  },
+  {
+    "id": "9",
+    "question": "What is the purpose of the “cookie” in web development?",
+    "option":["To store data on the client’s browser for future use","To encrypt sensitive information during transmission","To handle server-side logic","To create user authentication systems"],
+    "answer": "To store data on the client’s browser for future use"
+  },
+  {
+    "id": "10",
+    "question": "What does the acronym “REST” stand for in the context of web development?",
+    "option":["Representational State Transfer","Responsive Elements for Seamless Transition","Readable Element Style Transfer","Real-time Server Technology"],
+    "answer": "Representational State Transfer"
+  },
+  {
+    "id": "11",
+    "question": "Which CSS property is used to create rounded corners for an HTML element?",
+    "option":["border-radius","corner-radius","rounded-corners","box-radius"],
+    "answer": "border-radius"
+  },
+  {
+    "id": "12",
+    "question": "Which HTML tag is used to create a hyperlink?",
+    "option":["{a}","{link}","{h1}","{p}"],
+    "answer": "{a}"
+  },
+  {
+    "id": "13",
+    "question": "What is the purpose of the script tag in HTML?",
+    "option":["To define the page’s structure","To include external CSS styles","To include external JavaScript code","To create hyperlinks"],
+    "answer": "To include external JavaScript code"
+  },
+  {
+    "id": "14",
+    "question": "_____ is NOT a popup message in javascript?",
+    "option":["prompt","confirm","alert","Error"],
+    "answer": "Error"
+  },
+  {
+    "id": "15",
+    "question": ".NET Framework was designed and developed by ______",
+    "option":["Microsoft","IBM","Oracle","Google"],
+    "answer": "Microspft"
+  },
+  {
+    "id": "16",
+    "question": "What does CORS stand for in web development?",
+    "option":["Cross-Origin Resource Sharing","Cross-Object Resource Security","Content-Origin Resource Sharing","Client-Origin Resource System"],
+    "answer": "Cross-Origin Resource Sharing"
+  },
+  {
+    "id": "17",
+    "question": "In a RESTful API, which HTTP method is typically used to update an existing resource?",
+    "option":["GET","POST","PUT","DELETE"],
+    "answer": "PUT"
+  },
+  {
+    "id": "18",
+    "question": "What was JavaScript originally called when it was first released?",
+    "option":["java","Netscape","Mocha","LiveScript"],
+    "answer": "LiveScript"
+  },
+  {
+    "id": "19",
+    "question": "In JavaScript, which method iterates over the elements of an array and creates a new array based on the results of the function specified within said method?",
+    "option":["map()","reverse()","split()","concat()"],
+    "answer": "map()"
+  },
+  {
+    "id": "20",
+    "question": "In JavaScript, what is the name of the method used to remove white space from the beginning and end of a string?",
+    "option":[".reduce()",".slice()",".trim()",".substring()"],
+    "answer": "InnerHTML"
+  }
+]
+
 let paper=()=>{
   confetti({
     particleCount:1000,
@@ -78,7 +202,7 @@ let paper=()=>{
         return randomNumbersArray
        };
        return ()=>{
-        let value=getUniqueRandomNumbers(25,0,question.length-1)
+        let value=getUniqueRandomNumbers(20,0,question.length-1)
         console.log("value",value);
        console.log("store",store);
         // num=value;
@@ -96,8 +220,8 @@ let paper=()=>{
   
  //console.log(typeof(store[current]));
  //console.log(store.length);
-
- if (store.length === 0) {
+//store.length === 0
+ if (!store.length) {
   return <div>Loading...</div>; // Handle loading state
 }
 
