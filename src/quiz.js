@@ -10,6 +10,7 @@ const Quiz = () => {
   const [minute,setminute]=useState(14);
   const [show, setshow] = useState(false);
   const [store, setStore] = useState([]);
+  const [load, setload] = useState(false);
   const [id, setid] = useState(1);
   
 //   console.log(question[current]);
@@ -221,13 +222,17 @@ let paper=()=>{
  //console.log(typeof(store[current]));
  //console.log(store.length);
 //store.length === 0
- if (!store.length) {
-  return <div>Loading...</div>; // Handle loading state
-}
+// setInterval(()=>{
+//   if (!store.length) {
+//     setload(true)
+//     return <div>Loading...</div>; // Handle loading state
+//   }
+// },1000)
+ 
 
   return (
     <div className="quiz">
-      {!show ? (
+      {!show && !load && store.length ? (
         <>
           <h1 className="que">{id}.{question[store[current]].question}</h1>
           <div className="btns">
