@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 //import question from "./question.json";
 import confetti from "canvas-confetti";
 import "./App.css";
+import { getDatabase,ref,push,onValue,remove,set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-const Quiz = () => {
+const Quiz = ({user,email,users}) => {
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(60);
@@ -148,6 +149,12 @@ let paper=()=>{
   })
 }
 
+let new_user={
+  name:user,
+  email:email,
+  score:score
+}
+
   let correct = (btn, value) => {
     //console.log(btn);
     setid((pre)=>pre+1);
@@ -159,6 +166,10 @@ let paper=()=>{
       //console.log(false);
       setshow(true);
       paper()
+      console.log(user);
+      console.log(email);
+      console.log(score);
+      push(users,new_user)
       //console.log(current);
     }
     if (value == question[current].answer) {
@@ -182,6 +193,10 @@ let paper=()=>{
       clearInterval(time);
       setshow(true)
       paper()
+      console.log(user);
+      console.log(email);
+      console.log(score);
+      push(users,new_user)
     }
 
     return () => clearInterval(time);
