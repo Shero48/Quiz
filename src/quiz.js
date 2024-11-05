@@ -37,7 +37,7 @@ const question=[
     "id": "3",
     "question": "Which of the following is used to store and query data in a tabular format in web development?",
     "option":["Database","API","JSON","XML"],
-    "answer": "database"
+    "answer": "Database"
   },
   {
     "id": "4",
@@ -49,7 +49,7 @@ const question=[
     "id": "5",
     "question": "Which JavaScript function is used to change the content of an HTML element?",
     "option":["modify()","change()","update()","innerHTML()"],
-    "answer": "InnerHTML"
+    "answer": "InnerHTML()"
   },
   {
     "id": "6",
@@ -109,7 +109,7 @@ const question=[
     "id": "15",
     "question": ".NET Framework was designed and developed by ______",
     "option":["Microsoft","IBM","Oracle","Google"],
-    "answer": "Microspft"
+    "answer": "Microsoft"
   },
   {
     "id": "16",
@@ -139,7 +139,7 @@ const question=[
     "id": "20",
     "question": "In JavaScript, what is the name of the method used to remove white space from the beginning and end of a string?",
     "option":[".reduce()",".slice()",".trim()",".substring()"],
-    "answer": "InnerHTML"
+    "answer": ".trim()"
   }
 ]
 
