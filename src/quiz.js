@@ -7,7 +7,7 @@ import { collection, addDoc } from 'firebase/firestore';
 
 const Quiz = ({user,email,users}) => {
   const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [timer, setTimer] = useState(60);
   const [minute,setminute]=useState(14);
   const [show, setshow] = useState(false);
@@ -37,7 +37,7 @@ const question=[
     "id": "3",
     "question": "Which of the following is used to store and query data in a tabular format in web development?",
     "option":["Database","API","JSON","XML"],
-    "answer": "database"
+    "answer": "Database"
   },
   {
     "id": "4",
@@ -49,7 +49,7 @@ const question=[
     "id": "5",
     "question": "Which JavaScript function is used to change the content of an HTML element?",
     "option":["modify()","change()","update()","innerHTML()"],
-    "answer": "InnerHTML"
+    "answer": "innerHTML()"
   },
   {
     "id": "6",
@@ -109,7 +109,7 @@ const question=[
     "id": "15",
     "question": ".NET Framework was designed and developed by ______",
     "option":["Microsoft","IBM","Oracle","Google"],
-    "answer": "Microspft"
+    "answer": "Microsoft"
   },
   {
     "id": "16",
@@ -139,7 +139,7 @@ const question=[
     "id": "20",
     "question": "In JavaScript, what is the name of the method used to remove white space from the beginning and end of a string?",
     "option":[".reduce()",".slice()",".trim()",".substring()"],
-    "answer": "InnerHTML"
+    "answer": ".trim()"
   }
 ]
 
@@ -150,18 +150,21 @@ let paper=()=>{
   })
 }
 
-let new_user={
-  name:user,
-  email:email,
-  score:score
-}
-
-  let correct = async(btn, value) => {
+  let correct = async(value) => {
     //console.log(btn);
+    
+    if (value == question[current].answer) {
+      setScore((pre) => pre + 1);
+      console.log("working");
+      // setTimer(30);
+      //console.log(current);
+    }
     setid((pre)=>pre+1);
     if (question.length - 1 > current) {
       //  console.log(true);
       setCurrent((pre) => pre + 1);
+      console.log(score);
+      
       //console.log(current);
     } else {
       //console.log(false);
@@ -175,14 +178,9 @@ let new_user={
         Name:user,
         Email:email,
         Date:new Date(),
-        score:score,
+        score:score==0? score-1 : score!=20 ? score-1 :score,
         eligible:eligible
-    });
-    }
-    if (value == question[current].answer) {
-      setScore((pre) => pre + 1);
-      // setTimer(30);
-      //console.log(current);
+    })
     }
   };
 
@@ -203,11 +201,14 @@ let new_user={
       console.log(user);
       console.log(email);
       console.log(score);
-      database.ref("users").set({
-        name:user,
-        email:email,
-        score:score
-      })
+      let eligible=score > 12 ? true : false
+      addDoc(collection(database, 'users'), {
+        Name:user,
+        Email:email,
+        Date:new Date(),
+        score:score-1,
+        eligible:eligible
+    })
     }
 
     return () => clearInterval(time);
@@ -256,33 +257,38 @@ let new_user={
  
 
   return (
-    <div className="quiz">
-      {!show  ? (
-        <>
-          <h1 className="que">{id}.{question[current].question}</h1>
-          <div className="btns">
-            {question[current].option.map((value, index) => (
-              <button
-                className="btn"
-                key={index}
-                onClick={() => {
-                  correct(this, value);
-                }}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-          <div>{minute}m:{timer}s</div>
-        </>
-      ) : (
-        <>
-          <h1>Your Score is</h1>
-          <div  className="score">
-            {score}/{question.length}
-          </div>
-        </>
-      )}
+    <div className="q-cen">
+      <div className="quiz">
+        {!show  ? (
+          <>
+            <h1 className="que">{id}.{question[current].question}</h1>
+            <div className="btns">
+              {question[current].option.map((value, index) => (
+                <button
+                  className="btn"
+                  key={index}
+                  onClick={() => {
+                    correct(value);
+                  }}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+            <div className="time"><h1>{minute}</h1><p>m:</p><h1>{timer}</h1><p>s</p></div>
+          </>
+        ) : (
+          <>
+            <h1>Your Score is</h1>
+            <div  className="score">
+              {score-1}/{question.length}
+            </div>
+            <div className="dis">
+              <h2>{score >= 12 ? "You Selected For Round 2" : "Try To Next Time"}</h2>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
