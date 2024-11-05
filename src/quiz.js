@@ -7,12 +7,12 @@ import { collection, addDoc } from 'firebase/firestore';
 
 const Quiz = ({user,email,users}) => {
   const [current, setCurrent] = useState(0);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(1);
   const [timer, setTimer] = useState(60);
-  const [minute,setminute]=useState(14);
+  const [minute,setminute]=useState(0);
   const [show, setshow] = useState(false);
-  // const [store, setStore] = useState([]);
-  // const [load, setload] = useState(false);
+  const [store, setStore] = useState([]);
+  const [load, setload] = useState(false);
   const [id, setid] = useState(1);
   
 //   console.log(question[current]);
@@ -49,7 +49,7 @@ const question=[
     "id": "5",
     "question": "Which JavaScript function is used to change the content of an HTML element?",
     "option":["modify()","change()","update()","innerHTML()"],
-    "answer": "InnerHTML()"
+    "answer":"innerHTML()"
   },
   {
     "id": "6",
@@ -150,18 +150,21 @@ let paper=()=>{
   })
 }
 
-let new_user={
-  name:user,
-  email:email,
-  score:score
-}
-
-  let correct = async(btn, value) => {
+  let correct = async(value) => {
     //console.log(btn);
+    
+    if (value == question[current].answer) {
+      setScore(pre => pre + 1);
+      console.log("working");
+      // setTimer(30);
+      //console.log(current);
+    }
     setid((pre)=>pre+1);
     if (question.length - 1 > current) {
       //  console.log(true);
       setCurrent((pre) => pre + 1);
+      console.log(score);
+      
       //console.log(current);
     } else {
       //console.log(false);
@@ -175,14 +178,9 @@ let new_user={
         Name:user,
         Email:email,
         Date:new Date(),
-        score:score,
+        score:score==0? score-1 : score!=20 ? score-1 :score,
         eligible:eligible
-    });
-    }
-    if (value == question[current].answer) {
-      setScore((pre) => pre + 1);
-      // setTimer(30);
-      //console.log(current);
+    })
     }
   };
 
@@ -203,42 +201,45 @@ let new_user={
       console.log(user);
       console.log(email);
       console.log(score);
-      database.ref("users").set({
-        name:user,
-        email:email,
-        score:score
-      })
+      let eligible=score > 12 ? true : false
+      addDoc(collection(database, 'users'), {
+        Name:user,
+        Email:email,
+        Date:new Date(),
+        score:score==0? score-1 : score!=20 ? score-1 :score,
+        eligible:eligible
+    })
     }
 
     return () => clearInterval(time);
   }, [timer, show]);
-  // useEffect(() => {
-  //   console.log("useEffect");
-  //   console.log("work");
-  //   const getUniqueRandomNumbers = (count, min, max) => {
-  //       const uniqueNumbers = new Set();
+  useEffect(() => {
+    console.log("useEffect");
+    console.log("work");
+    const getUniqueRandomNumbers = (count, min, max) => {
+        const uniqueNumbers = new Set();
     
-  //       while (uniqueNumbers.size < count) {
-  //         const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
-  //         uniqueNumbers.add(randomNum);
-  //       }
-  //       const randomNumbersArray = Array.from(uniqueNumbers);
-  //       console.log("Generated random numbers:", randomNumbersArray);
-  //       setStore(randomNumbersArray);
-  //       return randomNumbersArray
-  //      };
-  //      return ()=>{
-  //       let value=getUniqueRandomNumbers(20,0,question.length-1)
-  //       console.log("value",value);
-  //      console.log("store",store);
-  //       // num=value;
-  //       // console.log("number",num);
-  //       // console.log(num[current]);
-  //       // console.log(num[1]);
-  //       // console.log(question[num[current]].question);
+        while (uniqueNumbers.size < count) {
+          const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+          uniqueNumbers.add(randomNum);
+        }
+        const randomNumbersArray = Array.from(uniqueNumbers);
+        console.log("Generated random numbers:", randomNumbersArray);
+        setStore(()=>randomNumbersArray);
+        return randomNumbersArray
+       };
+       return ()=>{
+        let value=getUniqueRandomNumbers(20,0,question.length-1)
+        console.log("value",value);
+        console.log("store",store);
+        // num=value;
+        // console.log("number",num);
+        // console.log(num[current]);
+        // console.log(num[1]);
+        // console.log(question[num[current]].question);
         
-  //      }
-  // }, []); // Empty array ensures this runs once
+       }
+  }, []); // Empty array ensures this runs once
     
   //console.log(num[current]);
   //console.log(value[current]);
@@ -247,42 +248,47 @@ let new_user={
  //console.log(typeof(store[current]));
  //console.log(store.length);
 //store.length === 0
-// setInterval(()=>{
-//   if (!store.length) {
-//     setload(true)
-//     return <div>Loading...</div>; // Handle loading state
-//   }
-// },1000)
+setTimeout(()=>{
+  if (!store.length) {
+    setload(true)
+    return <div>Loading...</div>; // Handle loading state
+  }
+},1000)
  
 
   return (
-    <div className="quiz">
-      {!show  ? (
-        <>
-          <h1 className="que">{id}.{question[current].question}</h1>
-          <div className="btns">
-            {question[current].option.map((value, index) => (
-              <button
-                className="btn"
-                key={index}
-                onClick={() => {
-                  correct(this, value);
-                }}
-              >
-                {value}
-              </button>
-            ))}
-          </div>
-          <div>{minute}m:{timer}s</div>
-        </>
-      ) : (
-        <>
-          <h1>Your Score is</h1>
-          <div  className="score">
-            {score}/{question.length}
-          </div>
-        </>
-      )}
+    <div className="q-cen">
+      <div className="quiz">
+        {!show && store.length && question.length && load==false  ? (
+          <>
+            <h1 className="que">{id}.{question[store[current]].question}</h1>
+            <div className="btns">
+              {question[store[current]].option.map((value, index) => (
+                <button
+                  className="btn"
+                  key={index}
+                  onClick={() => {
+                    correct(value);
+                  }}
+                >
+                  {value}
+                </button>
+              ))}
+            </div>
+            <div className="time"><h1>{minute}</h1><p>m:</p><h1>{timer}</h1><p>s</p></div>
+          </>
+        ) : (
+          <>
+            <h1>Your Score is</h1>
+            <div  className="score">
+              {score-1}/{question.length}
+            </div>
+            <div className="dis">
+              <h2>{score >= 12 ? "You Selected For Round 2" : "Try To Next Time"}</h2>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

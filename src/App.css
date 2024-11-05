@@ -7,7 +7,12 @@
   --head: "Caprasimo", serif;
   --robot:"";
 }
-
+.q-cen{
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .app{
   color: var(--text);
   padding:30px;
@@ -37,6 +42,9 @@
   font-size: 45px;
   font-weight: 800;
   color: var(--primary);
+}
+.dis h2{
+  color: #0a9396;
 }
 .header .left{
   width: 100px;
@@ -193,10 +201,19 @@
   cursor: pointer;
   background-color: transparent;
   border-radius: 10px;
+  outline: none;
 }
-.user_input button:hover{
-  color: white;
-  background-color: var(--text);
-  border: none;
-  transition: all .5s ease-in-out;
+.time{
+  display: flex;
+  flex-direction: row;
+}
+.time h1{
+  padding-left:10px;
+  color: red;
+  font-family: 'LED Digital 7', sans-serif;
+  letter-spacing: 3px;
+}
+.time p{
+  font-size: 20px;
+  align-self: flex-end;
 }
