@@ -4,14 +4,14 @@ import { getFirestore } from "firebase/firestore"; // for Firestore
 // import { getDatabase } from "firebase/database"; // for Realtime Database
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBYqdQpXHDasFZJiDK4yoaE0fZITBfx49o",
-  authDomain: "sancet-e0afa.firebaseapp.com",
-  databaseURL: "https://sancet-e0afa-default-rtdb.firebaseio.com",
-  projectId: "sancet-e0afa",
-  storageBucket: "sancet-e0afa.firebasestorage.app",
-  messagingSenderId: "804564299842",
-  appId: "1:804564299842:web:093701da79094c615bbddb",
-  measurementId: "G-MEW9EE68CC"
+  apiKey: "firebase_apikey",
+  authDomain: "domain name",
+  databaseURL: "database_url",
+  projectId: "pro_id",
+  storageBucket: "store___",
+  messagingSenderId: "sen_id",
+  appId: "app_id",
+  measurementId: "mes"
 };
 
 const app = initializeApp(firebaseConfig);
