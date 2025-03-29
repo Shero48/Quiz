@@ -13,6 +13,10 @@ const User=({user,setuser,list,setlist,email,setemail,submit})=>{
                     Enter Your Email :
                     <input type="email" placeholder="Enter your email" onChange={(e)=>{setemail(e.target.value)}} required/>
                 </label>
+                <label>
+                    Enter Your College Name :
+                    <input type="text" placeholder="Enter your College Name" onChange={(e)=>{setemail(e.target.value)}} required/>
+                </label>
                 <button onClick={submit}>Submit</button>
             </div>
         </div>
